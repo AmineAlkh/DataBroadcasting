@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Previous Generated Arrays</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <h2>Previous Generated Arrays</h2>
+    <div id="arrays-container">
+        <ul>
+        {% for array in arrays %}
+            <li>
+                <strong>Size:</strong> {{ array.size }}
+                <br>
+                <strong>Timestamp:</strong> {{ array.timestamp }}
+                <br>
+                <pre>{{ array.array }}</pre>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

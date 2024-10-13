@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Random Array Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Random Array Generator</h1>
+    <input type="number" id="size" placeholder="Array Size" value="10000">
+    <button onclick="generateArray()">Generate Array</button>
+    <div id="errors"></div>
+    <h2>Generated Arrays:</h2>
+    <div id="generated_arrays"></div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
