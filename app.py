@@ -3,14 +3,6 @@ from flask_socketio import SocketIO, emit
 import numpy as np
 from db import store_in_db, fetch_previous_arrays
 
-from pymongo import MongoClient
-from datetime import datetime
-
-# MongoDB setup
-client = MongoClient("mongodb://localhost:27017/")
-db = client["random_arrays"]
-collection = db["arrays"]
-
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "random_secret_key"
 app.config["STATIC_FOLDER"] = "static"
