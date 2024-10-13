@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
+from socketio.exceptions import ConnectionError, SocketIOError
 import numpy as np
 from db import store_in_db, fetch_previous_arrays
 
@@ -40,18 +41,22 @@ def handle_generate_array(data):
         array_size = int(
             data.get("size")
         )  # Empty input is converted to 10000 in template!
-        random_array = np.random.randint(0, 99999, array_size).tolist()
-        # Stores in MongoDB
-        array_id = store_in_db(random_array, array_size)
-        # If failed to save, shows error message
-        if array_id:
-            # Broadcast the new array to clients
-            socketio.emit("new_array", {"array": random_array})
+        if array_size < 100000:
+            random_array = np.random.randint(0, 99999, array_size).tolist()
+            # Stores in MongoDB
+            array_id = store_in_db(random_array, array_size)
+            # If failed to save, shows error message
+            if array_id:
+                # Broadcast the new array to clients
+                socketio.emit("new_array", {"array": random_array})
+            else:
+                emit("error", {"message": "Failed to connect to database."}, broadcast=True)
         else:
-            emit("error", {"message": "Failed to save data"}, broadcast=True)
-    except Exception as e:
-        emit("error", {"message": str(e)}, broadcast=True)
-
+            emit("error", {"message": "Size of array is too large!"}, broadcast=True)
+    except ConnectionError as e:
+        emit("error", {"message": "Connection error occurred"}, broadcast=True)
+    except SocketIOError as e:
+        emit("error", {"message": "Socket.IO error occurred"}, broadcast=True)
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
