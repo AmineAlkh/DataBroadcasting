@@ -40,8 +40,10 @@ def handle_generate_array(data):
     try:
         array_size = int(
             data.get("size")
-        )  # Empty input is converted to 10000 in template!
-        if array_size < 100000:
+        )  # Empty or alphabetical input is converted to 10000 in template!
+        if array_size <=0:
+            emit("error", {"message": "Invalid input. Array size must be positive."}, broadcast=True)
+        elif array_size < 300000:
             random_array = np.random.randint(0, 99999, array_size).tolist()
             # Stores in MongoDB
             array_id = store_in_db(random_array, array_size)
