@@ -30,11 +30,6 @@ socket.on('new_array', function(data) {
 // Function to generate new array
 function generateArray() {
     const size = document.getElementById('size').value || 10000;
-    // Handle negative array size
-    if (size <= 0) {            
-        alert('Invalid input. Array size must be positive');
-        return;
-    }
     // TO DO: alphabetical size input passes as 10000 because of input type!
     // ADD: error handler
     socket.emit('generate_array', { size: size });
